@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche enseignant · C³</title>
+<style>
+:root{--ink:#1B2F52;--mut:#586577;--bg:#F7F5F0;--card:#FFFDF8;--line:#D8D5CA;--teal:#0F766E;--amber:#9A5B00;--blue:#2A4A9A;--ok:#0F5F58;--warn:#8A2A1B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#2B3748;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;color:var(--ink);line-height:1.2;margin:0}
+header.top{padding:18px 0 6px}
+header.top h1{font-size:30px}
+header.top p{margin:4px 0 0;color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.btn{font:inherit;font-weight:600;border:2px solid var(--ink);background:var(--ink);color:#fff;border-radius:10px;padding:8px 14px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.small{padding:5px 10px;font-size:14px}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #F5C469;outline-offset:2px}
+.prog{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 0;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 0 0;margin:0}
+.tab{flex:1 1 0;min-width:112px;font:inherit;text-align:left;cursor:pointer;color:var(--ink);background:#ECE8DC;border:2px solid var(--line);border-bottom:0;border-radius:12px 12px 0 0;padding:7px 10px;line-height:1.25;position:relative;top:1px}
+.tab b{display:block;font-size:15px}
+.tab .st{font-size:13px;font-weight:700;color:var(--mut)}
+.tab.full .st{color:var(--ok)}.tab.part .st{color:var(--amber)}
+.tab[aria-selected=true]{background:var(--card);border-color:var(--ink);border-top-width:5px;padding-top:4px;z-index:2}
+.tab:focus-visible{outline:3px solid #F5C469;outline-offset:-3px}
+.meter{height:6px;background:#E6EAF1;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--teal);width:0;transition:width .3s}
+.panel[hidden]{display:none}
+.pn{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}
+.gbox{background:#fff;border:2px solid var(--line);border-radius:12px;padding:4px 16px 14px;margin:10px 0}
+.gbox h3{font-size:18px;margin:10px 0 0}
+ol.steps{list-style:none;margin:16px 0;padding:0;display:grid;gap:12px}
+ol.steps li{display:flex;gap:14px;background:#fff;border:2px solid var(--line);border-left:8px solid var(--c);border-radius:10px;padding:10px 14px}
+ol.steps .sn{flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:var(--c);color:#fff;font:700 18px/36px Georgia,serif;text-align:center}
+ol.steps h3{font-size:19px;margin:0 0 4px}ol.steps h3 small{font:400 13px system-ui;color:var(--mut);margin-left:6px}
+ol.steps p{margin:3px 0}
+ol.steps .btn{margin-top:6px}
+.st1{--c:var(--teal)}.st2{--c:var(--amber)}.st3{--c:var(--blue)}.st4{--c:var(--ink)}.st5{--c:#6b7280}
+code{background:#EEF1F5;padding:0 5px;border-radius:4px;font-size:.92em}
+section.r{background:var(--card);border:2px solid var(--line);border-top:10px solid var(--teal);border-radius:16px;padding:16px 20px;margin:16px 0}
+section.r.b{border-top-color:var(--amber)}section.r.c{border-top-color:var(--blue)}section.r.d{border-top-color:var(--ink)}
+section.r h2{font-size:24px;margin-bottom:2px}
+.sub{color:var(--mut);margin:0 0 12px}
+label.f{display:block;font-weight:700;margin:12px 0 4px;color:var(--ink)}
+label.f small{font-weight:400;color:var(--mut)}
+input[type=text],input[type=number],select,textarea{width:100%;font:inherit;padding:8px 10px;border:2px solid var(--line);border-radius:8px;background:#fff;color:#222}
+textarea{min-height:76px;resize:vertical}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px}
+@media(max-width:720px){.g2,.g3{grid-template-columns:1fr}}
+.hint{color:var(--mut);font-size:14px}
+.note{background:#EEF3F8;border-left:5px solid var(--blue);padding:8px 12px;border-radius:6px;margin:10px 0;font-size:15px}
+.note.warn{background:#FBEFEA;border-color:var(--warn)}
+.note.ok{background:#E8F3F1;border-color:var(--teal)}
+details{margin:10px 0}summary{cursor:pointer;font-weight:700;color:var(--ink)}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:12px;margin:8px 0;background:#fff}
+.drop.over{border-color:var(--teal);background:#E8F3F1}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:8px 0}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:#E6EAF1;color:var(--ink)}
+tr.v2row td{background:#FBF1DE;font-weight:600}
+tr.v1row td{background:#E9EEF8}
+.tag{display:inline-block;border-radius:999px;padding:0 9px;font-size:13px;font-weight:700;color:#fff;background:var(--ink)}
+.tag.v1{background:var(--blue)}.tag.v2{background:var(--amber)}
+.fils label{margin-right:16px;font-weight:400}
+#doc{background:#fff;border:2px solid var(--line);border-radius:8px;padding:22px 26px;margin-top:12px}
+#doc h1{font-size:24px;border-bottom:3px solid var(--teal);padding-bottom:6px;margin-bottom:6px}
+#doc h2{font-size:17px;margin:16px 0 4px;color:var(--teal)}
+#doc h2.b{color:var(--amber)}#doc h2.c{color:var(--blue)}
+#doc p{margin:3px 0}#doc .kv b{color:var(--ink)}
+#doc .empty{color:var(--mut);font-style:italic}
+#doc .ann{background:#F4F1E8;border-left:4px solid var(--blue);padding:6px 10px;margin:6px 0}
+#doc .ann p{margin:2px 0}
+footer{color:var(--mut);font-size:13px;margin:24px 0}
+@media print{
+  @page{size:A4 portrait;margin:14mm}
+  body{background:#fff;font-size:11pt}
+  .wrap>*:not(#docwrap){display:none!important}
+  #docwrap{display:block!important}
+  #docwrap h2.ex,#docwrap .noprint{display:none!important}
+  #doc{border:0;padding:0;margin:0}
+  #doc table{font-size:9.5pt;page-break-inside:auto}
+  #doc tr{page-break-inside:avoid}
+  #doc h2{page-break-after:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <h1>Fiche enseignant · C³ <span style="font-weight:400;color:var(--mut);font-size:20px">Cibler · Construire · Certifier</span></h1>
+  <p>Une fiche qui se remplit peu à peu, à partir de vos trois outils. Rien ne quitte votre navigateur ; aucune donnée d’élève n’y a sa place.</p>
+  <div class="bar">
+    <button class="btn" data-act="save">Enregistrer la fiche (.json)</button>
+    <label class="btn ghost" style="margin:0">Ouvrir une fiche…<input type="file" id="openf" accept=".json,application/json" hidden></label>
+    <button class="btn ghost" data-act="new">Nouvelle fiche</button>
+    <button class="btn ghost" data-act="demo">Exemple fictif</button>
+  </div>
+  <div id="msg" class="hint" role="status" aria-live="polite"></div>
+</header>
+
+<div class="prog" id="prog"></div>
+
+<section class="r panel" id="guide" role="tabpanel" aria-labelledby="tab-guide" style="border-top-color:var(--ink)">
+  <h2>Guide : de l’observation à la fiche</h2>
+  <p class="sub">Cette fiche rassemble, en quatre rubriques, le travail fait dans les trois outils C³. Chaque onglet correspond à une étape ; vous pouvez les remplir dans l’ordre ou non, et revenir à tout moment.</p>
+  <div class="gbox"><h3>Votre fiche</h3>
+  <label class="f">Titre de la fiche <small>(l’activité ou le chapitre)</small></label>
+  <input type="text" data-f="meta.titre" placeholder="ex. Érasme et l’humanisme : interroger une IA">
+  <div class="g2">
+    <div><label class="f">Discipline, classe</label><input type="text" data-f="meta.classe" placeholder="ex. Histoire, 2e année"></div>
+    <div><label class="f">Auteur·e, date</label><input type="text" data-f="meta.auteur" placeholder="ex. C. D., novembre 2026"></div>
+  </div>
+  </div>
+  <ol class="steps">
+    <li class="st1"><div class="sn">1</div><div><h3>Cibler <small>onglet « 1 · Cibler »</small></h3>
+      <p><b>Outil :</b> <a data-tool="competences" target="_blank" rel="noopener">Compétences IA des apprenants</a></p>
+      <p>Partez d’une pratique observée chez vos élèves et trouvez la compétence UNESCO à travailler. À la fin du parcours guidé, copiez l’extrait « FICHE ACTION ».</p>
+      <p><b>À apporter ici :</b> l’extrait collé (ou une saisie à la main, l’outil ne produit pas de fichier).</p>
+      <button class="btn small ghost" data-go="s1">Aller à l’onglet 1</button></div></li>
+    <li class="st2"><div class="sn">2</div><div><h3>Construire <small>onglet « 2 · Construire »</small></h3>
+      <p><b>Outil :</b> <a data-tool="atelier2" target="_blank" rel="noopener">Atelier 2</a></p>
+      <p>Décrivez l’activité de voie 2 : ce que font les élèves, le cadre d’usage de l’IA, la trace demandée, le retour réflexif. Enregistrez votre travail avec « Enregistrer (.json) ».</p>
+      <p><b>À apporter ici :</b> le fichier <code>two-lane-atelier2.json</code>. Il remplit aussi l’onglet 3.</p>
+      <button class="btn small ghost" data-go="s2">Aller à l’onglet 2</button></div></li>
+    <li class="st3"><div class="sn">3</div><div><h3>Organiser <small>onglet « 3 · Organiser »</small></h3>
+      <p><b>Outil :</b> <a data-tool="atelier2" target="_blank" rel="noopener">Atelier 2</a> (même fichier)</p>
+      <p>Vérifiez la séquence copiée : étapes, acquis visés, place de l’activité de voie 2 et des contrôles de voie 1. Pour la modifier, retournez dans Atelier 2 et réimportez le fichier.</p>
+      <button class="btn small ghost" data-go="s3">Aller à l’onglet 3</button></div></li>
+    <li class="st4"><div class="sn">4</div><div><h3>Certifier <small>onglet « 4 · Certifier »</small></h3>
+      <p><b>Outil :</b> <a data-tool="levier" target="_blank" rel="noopener">Levier</a></p>
+      <p>Choisissez le mode de modulation, les productions de voie 2 et leurs poids. Cliquez sur « Enregistrer la configuration ». Les notes de la classe ne font jamais partie de ce fichier.</p>
+      <p><b>À apporter ici :</b> le fichier <code>levier_configuration_….json</code>.</p>
+      <button class="btn small ghost" data-go="s4">Aller à l’onglet 4</button></div></li>
+    <li class="st5"><div class="sn">✓</div><div><h3>Fiche <small>onglet « Fiche »</small></h3>
+      <p>La fiche se compose toute seule. Imprimez-la en PDF, ou exportez-la en Markdown pour la ranger dans vos notes.</p>
+      <button class="btn small ghost" data-go="docwrap">Voir la fiche</button></div></li>
+  </ol>
+  <div class="note"><b>Bon à savoir.</b> Tout se passe dans votre navigateur ; la fiche s’enregistre automatiquement sur cet appareil. Pour la reprendre ailleurs, utilisez « Enregistrer la fiche (.json) » puis « Ouvrir une fiche… ». Aucune donnée d’élève n’a sa place ici.</div>
+</section>
+
+<section class="r panel" id="s1" role="tabpanel" aria-labelledby="tab-s1" hidden>
+  <h2>1 · Cibler : le problème d’usage de l’IA</h2>
+  <p class="sub">Qu’observez-vous chez les élèves, et quelle compétence UNESCO voulez-vous travailler ? Le site « Compétences IA des apprenants » ne produit pas de fichier : collez son extrait de fiche action, ou remplissez à la main.</p>
+  <details open><summary>Coller l’extrait du site Compétences IA</summary>
+    <textarea id="imp1" placeholder="FICHE ACTION · extrait généré par le parcours guidé…"></textarea>
+    <button class="btn small" data-act="imp1" style="margin-top:6px">Reconnaître l’extrait</button> <span class="hint" id="imp1m"></span>
+  </details>
+  <label class="f">Pratique observée chez les élèves <small>(le problème d’usage)</small></label>
+  <textarea data-f="r1.pratique" placeholder="ex. Ils font organiser leurs questions par une autre IA, sans le dire"></textarea>
+  <label class="f">Cause probable <small>(facultatif)</small></label>
+  <input type="text" data-f="r1.cause">
+  <div class="g3">
+    <div><label class="f" for="sel-asp">Aspect UNESCO</label><select id="sel-asp" data-f="r1.aspect" data-rr="1"></select></div>
+    <div><label class="f" for="sel-niv">Niveau</label><select id="sel-niv" data-f="r1.niveau" data-rr="1"></select></div>
+    <div><label class="f" for="sel-blo">Bloc</label><select id="sel-blo" data-f="r1.bloc" data-rr="1"></select></div>
+  </div>
+  <label class="f" for="sel-cg">Objectif visé (CG)</label><select id="sel-cg" data-f="r1.cg" data-rr="1"></select>
+  <label class="f">Principes ou précisions <small>(facultatif, ex. détermination humaine, transparence)</small></label>
+  <input type="text" data-f="r1.principes">
+  <div id="cgtxt" class="note" hidden></div>
+</section>
+
+<section class="r b panel" id="s2" role="tabpanel" aria-labelledby="tab-s2" hidden>
+  <h2>2 · Construire : l’activité de voie 2</h2>
+  <p class="sub">L’activité avec IA autorisée et déclarée. Importez l’export d’Atelier 2 (il remplit aussi la rubrique 3), ou écrivez ici.</p>
+  <div class="drop" id="drop2"><b>Importer depuis Atelier 2</b> <span class="hint">· fichier « two-lane-atelier2.json »</span><br>
+    <label class="btn ghost small" style="margin:6px 0 0">Choisir le fichier…<input type="file" id="f2" accept=".json,application/json" hidden></label>
+    <span class="hint"> ou le glisser ici.</span>
+    <details><summary>…ou coller le contenu du fichier</summary><textarea id="imp2" placeholder='{"step":5,"v2":{…},"items":[…]}'></textarea><button class="btn small" data-act="imp2" style="margin-top:6px">Importer</button></details>
+    <div id="imp2m" class="hint"></div></div>
+  <label class="f">Titre de l’activité</label><input type="text" data-f="r2.titre">
+  <label class="f">Ce que font les élèves</label><textarea data-f="r2.fait"></textarea>
+  <label class="f">Cadre d’usage de l’IA <small>(permis, interdit, déclaration)</small></label><textarea data-f="r2.usageIA"></textarea>
+  <label class="f">Trace demandée</label><textarea data-f="r2.trace"></textarea>
+  <label class="f">Retour réflexif</label><textarea data-f="r2.reflexif"></textarea>
+  <div class="g3">
+    <div><label class="f">Durée (min)</label><input type="text" data-f="r2.duree"></div>
+    <div><label class="f">Poids dans la note de voie 2 (%)</label><input type="text" data-f="r2.poids"></div>
+    <div><label class="f">Public</label><input type="text" data-f="r2.classe" placeholder="ex. binômes"></div>
+  </div>
+  <label class="f">Enjeux travaillés</label>
+  <div class="fils"><label><input type="checkbox" data-f="r2.fils.lit"> Littératie de l’IA</label><label><input type="checkbox" data-f="r2.fils.meta"> Métacognition</label><label><input type="checkbox" data-f="r2.fils.eth"> Éthique</label></div>
+</section>
+
+<section class="r c panel" id="s3" role="tabpanel" aria-labelledby="tab-s3" hidden>
+  <h2>3 · Organiser : la séquence</h2>
+  <p class="sub">Copie de l’organisation construite dans Atelier 2 : étapes, acquis visés, place de l’activité de voie 2 et des contrôles de voie 1.</p>
+  <div id="seq"></div>
+  <div class="drop" id="drop3"><label class="btn ghost small" style="margin:0">Importer l’export d’Atelier 2…<input type="file" id="f3" accept=".json,application/json" hidden></label> <span class="hint">(même fichier qu’à la rubrique 2)</span></div>
+</section>
+
+<section class="r d panel" id="s4" role="tabpanel" aria-labelledby="tab-s4" hidden>
+  <h2>4 · Certifier : l’évaluation Levier</h2>
+  <p class="sub">Le contrôle de voie 1 qui module la note de voie 2. Importez la configuration enregistrée dans Levier (« levier_configuration_….json »).</p>
+  <div class="drop" id="drop4"><label class="btn ghost small" style="margin:0">Importer la configuration Levier…<input type="file" id="f4" accept=".json,application/json" hidden></label> <span class="hint">ou la glisser ici.</span>
+    <details><summary>…ou coller le contenu du fichier</summary><textarea id="imp4" placeholder='{"levier":1,"tasks":[…],"config":{…}}'></textarea><button class="btn small" data-act="imp4" style="margin-top:6px">Importer</button></details>
+    <div id="imp4m" class="hint"></div></div>
+  <div id="lev"></div>
+  <label class="f">Commentaire sur le choix du mode <small>(pourquoi celui-ci ? facultatif)</small></label><textarea data-f="r4.commentaire"></textarea>
+</section>
+
+<section class="r panel" id="docwrap" role="tabpanel" aria-labelledby="tab-docwrap" style="border-top-color:var(--ink)" hidden>
+  <h2 class="ex">Fiche à imprimer ou à partager</h2>
+  <div class="bar noprint">
+    <button class="btn" data-act="print">Imprimer / enregistrer en PDF</button>
+    <button class="btn ghost" data-act="md">Télécharger en Markdown</button>
+    <button class="btn ghost" data-act="copymd">Copier le Markdown</button>
+  </div>
+  <div id="doc"></div>
+</section>
+
+<footer>Le classeur de notes (tableur) n’est pas inclus : il se régénère à tout moment dans Levier en chargeant la configuration. Cette fiche ne contient ni noms, ni notes d’élèves.</footer>
+</div>
+
+<script>
+const UN = {"A":{"humain":{"n":"Perspective centrée sur l’humain","s":"Humain","sym":"◆","d":"Valeurs, esprit critique et responsabilités : pourquoi, quand et comment utiliser l’IA, et qui en répond."},"ethique":{"n":"Éthique de l’IA","s":"Éthique","sym":"●","d":"Composantes sociales et éthiques : les principes qui encadrent le comportement humain tout au long du cycle de vie de l’IA."},"technique":{"n":"Techniques et applications de l’IA","s":"Techniques","sym":"▲","d":"Connaissances conceptuelles sur l’IA et compétences pour utiliser des outils sur des tâches authentiques."},"conception":{"n":"Conception de systèmes d’IA","s":"Conception","sym":"■","d":"Compétences d’ingénierie : définir le problème, construire l’architecture, former, tester et optimiser."}},"B":[{"id":"4.1.1","aspect":"humain","level":1,"name":"Agentivité humaine","cg":[{"c":"CG4.1.1.1","t":"Faire comprendre que l’IA est pilotée par l’humain."},{"c":"CG4.1.1.2","t":"Faciliter la compréhension de la nécessité d’exercer un contrôle humain approprié sur l’IA."},{"c":"CG4.1.1.3","t":"Favoriser la réflexion critique sur la relation dynamique entre l’action des êtres humains et celle de la machine."}]},{"id":"4.1.2","aspect":"ethique","level":1,"name":"Intériorisation de l’éthique","cg":[{"c":"CG4.1.2.1","t":"Illustrer les dilemmes liés à l’IA et identifier les principales raisons des conflits éthiques."},{"c":"CG4.1.2.2","t":"Faciliter la compréhension, sur la base de scénarios, des principes éthiques de l’IA et de leurs implications personnelles."},{"c":"CG4.1.2.3","t":"Guider la réflexion et l’intériorisation quant aux principes éthiques sur l’IA."}]},{"id":"4.1.3","aspect":"technique","level":1,"name":"Fondements de l’IA","cg":[{"c":"CG4.1.3.1","t":"Expliquer la définition et la portée de l’IA."},{"c":"CG4.1.3.2","t":"Acquérir et développer des connaissances conceptuelles sur la manière dont l’IA est entraînée à partir de données et d’algorithmes."},{"c":"CG4.1.3.3","t":"Favoriser une réflexion ouverte sur l’IA et une base interdisciplinaire pour l’IA."},{"c":"CG4.1.3.4","t":"Concrétiser les considérations centrées sur l’humain dans la conception et l’utilisation de l’IA."}]},{"id":"4.1.4","aspect":"conception","level":1,"name":"Délimitation des problèmes","cg":[{"c":"CG4.1.4.1","t":"Développer la pensée critique quant aux cas où l’IA ne devrait pas être utilisée."},{"c":"CG4.1.4.2","t":"Favoriser l’acquisition et le renforcement des compétences en matière de définition d’un problème à résoudre par un système d’IA."},{"c":"CG4.1.4.3","t":"Développer des compétences pour évaluer les besoins des systèmes d’IA en matière de données, d’algorithmes et de ressources informatiques."}]},{"id":"4.2.1","aspect":"humain","level":2,"name":"Responsabilité humaine","cg":[{"c":"CG4.2.1.1","t":"Adopter un point de vue selon lequel la responsabilité humaine constitue une obligation légale pour les créateurs d’IA et les fournisseurs de services."},{"c":"CG4.2.1.2","t":"Faire comprendre que la responsabilité humaine est une responsabilité juridique et sociale lorsqu’on utilise l’IA pour prendre des décisions concernant l’humanité."},{"c":"CG4.2.1.3","t":"Cultiver une posture réflexive selon laquelle la responsabilité humaine exige des compétences personnelles pour orienter l’utilisation intentionnelle de l’IA."}]},{"id":"4.2.2","aspect":"ethique","level":2,"name":"Utilisation sûre et responsable","cg":[{"c":"CG4.2.2.1","t":"Favoriser la conscience de soi et le respect usuel des principes éthiques pour l’utilisation responsable de l’IA."},{"c":"CG4.2.2.2","t":"Offrir des possibilités de renforcer l’autodiscipline dans l’utilisation responsable de l’IA."},{"c":"CG4.2.2.3","t":"Approfondir les connaissances pratiques sur l’utilisation sécuritaire de l’IA et la sensibilisation aux réglementations locales en vigueur."}]},{"id":"4.2.3","aspect":"technique","level":2,"name":"Compétences pour l’application","cg":[{"c":"CG4.2.3.1","t":"Offrir des possibilités de renforcer les connaissances et les compétences en matière de modélisation, d’ingénierie et d’analyse des données."},{"c":"CG4.2.3.2","t":"Offrir des possibilités d’acquérir des compétences techniques adaptées à l’âge en matière de programmation de l’IA."},{"c":"CG4.2.3.3","t":"Encourager les apprenants à développer des compétences d’analyse et de synthèse pour exploiter des ensembles de données et des outils d’IA libres (open source)."}]},{"id":"4.2.4","aspect":"conception","level":2,"name":"Conception de l’architecture","cg":[{"c":"CG4.2.4.1","t":"Étayer l’acquisition de connaissances méthodologiques et de compétences techniques sur l’architecture de l’IA."},{"c":"CG4.2.4.2","t":"Soutenir l’élaboration des compétences techniques avancées et des compétences de gestion de projet nécessaires à la construction d’un système d’IA."}]},{"id":"4.3.1","aspect":"humain","level":3,"name":"Citoyenneté à l’ère de l’IA","cg":[{"c":"CG4.3.1.1","t":"Être un citoyen critique en matière d’IA : favoriser cette prise de conscience."},{"c":"CG4.3.1.2","t":"Favoriser les responsabilités personnelles et sociales dans les sociétés d’IA."},{"c":"CG4.3.1.3","t":"Nourrir le sentiment d’accomplissement personnel en tant que citoyen de l’IA et l’attitude d’apprentissage tout au long de la vie à l’égard de l’IA."}]},{"id":"4.3.2","aspect":"ethique","level":3,"name":"Éthique dès la conception","cg":[{"c":"CG4.3.2.1","t":"Sensibiliser à l’« éthique dès la conception » et la faire comprendre."},{"c":"CG4.3.2.2","t":"Développer une attitude critique à l’égard des principes d’éthique dès la conception qui sous-tendent les systèmes et algorithmes d’IA existants."},{"c":"CG4.3.2.3","t":"Cultiver les responsabilités sociales pour défendre l’« éthique dès la conception » dans les réglementations sur l’IA."}]},{"id":"4.3.3","aspect":"technique","level":3,"name":"Création d’outils d’IA","cg":[{"c":"CG4.3.3.1","t":"Mettre au défi et activer des compétences avancées pour développer des outils d’IA basés sur des tâches."},{"c":"CG4.3.3.2","t":"Renforcer la créativité des apprenants en appliquant les connaissances d’IA."},{"c":"CG4.3.3.3","t":"Donner aux apprenants les compétences nécessaires pour tester et optimiser les outils d’IA qu’ils ont eux-mêmes créés."}]},{"id":"4.3.4","aspect":"conception","level":3,"name":"Itérations et boucles de rétroaction","cg":[{"c":"CG4.3.4.1","t":"Développer les compétences pour faire la critique des systèmes d’IA."},{"c":"CG4.3.4.2","t":"Soutenir l’acquisition de compétences techniques et de responsabilités sociales dans l’optimisation, la reconfiguration ou l’arrêt d’un système d’IA."},{"c":"CG4.3.4.3","t":"Favoriser l’identité des apprenants en tant que cocréateurs à l’ère de l’IA."}]}]};
+(function(){
+"use strict";
+const KEY="c3.fiche.v1";
+const NIV={1:"Comprendre",2:"Appliquer",3:"Créer"};
+const PHASE={amorcer:"Amorcer",preparer:"Préparer",ia:"Pratiquer avec l’IA",consolider:"Consolider",verif:"Vérifier"};
+const FORMAT={oral:"Oral individuel",ecrit:"Écrit en classe sans numérique",demo:"Démonstration pratique",micro:"Micro-certification",defense:"Défense d’un passage",quiz:"Quiz papier"};
+const FILS={lit:"Littératie de l’IA",meta:"Métacognition",eth:"Éthique"};
+const MOINS="−";
+const blank=()=>({fiche:1,meta:{titre:"",classe:"",auteur:""},
+  r1:{pratique:"",cause:"",aspect:"",niveau:"",bloc:"",cg:"",principes:""},
+  r2:{titre:"",fait:"",usageIA:"",trace:"",reflexif:"",duree:"",poids:"",classe:"",fils:{lit:false,meta:false,eth:false}},
+  r3:null, r4:{levier:null,commentaire:""}});
+let S=blank();
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const get=(o,p)=>p.split(".").reduce((a,k)=>a==null?a:a[k],o);
+function set(o,p,v){const k=p.split(".");let a=o;for(let i=0;i<k.length-1;i++)a=a[k[i]];a[k[k.length-1]]=v;}
+function say(t,cls){const m=$("#msg");m.textContent=t;m.style.color=cls==="err"?"#8A2A1B":"";}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+/* ---------- UNESCO ---------- */
+const blocById={};UN.B.forEach(b=>blocById[b.id]=b);
+const cgIdx={};UN.B.forEach(b=>b.cg.forEach(c=>cgIdx[c.c]={b,c}));
+function blocsFor(a,n){return UN.B.filter(b=>(!a||b.aspect===a)&&(!n||String(b.level)===String(n)));}
+function sync1(){ // cohérence aspect/niveau/bloc/cg
+  const r=S.r1;
+  if(r.cg&&cgIdx[r.cg]){const b=cgIdx[r.cg].b; if(!r.bloc||r.bloc!==b.id){r.bloc=b.id;} }
+  if(r.bloc&&blocById[r.bloc]){const b=blocById[r.bloc]; r.aspect=b.aspect; r.niveau=String(b.level); if(r.cg&&!b.cg.some(c=>c.c===r.cg)) r.cg="";}
+}
+function opt(v,t,sel){return `<option value="${esc(v)}"${String(sel)===String(v)?" selected":""}>${esc(t)}</option>`;}
+function fillSelects(){
+  const r=S.r1;
+  $("#sel-asp").innerHTML=opt("","— choisir —",r.aspect)+Object.keys(UN.A).map(k=>opt(k,UN.A[k].n,r.aspect)).join("");
+  $("#sel-niv").innerHTML=opt("","— choisir —",r.niveau)+[1,2,3].map(n=>opt(n,n+" · "+NIV[n],r.niveau)).join("");
+  $("#sel-blo").innerHTML=opt("","— choisir —",r.bloc)+blocsFor(r.aspect,r.niveau).map(b=>opt(b.id,b.id+" · "+b.name,r.bloc)).join("");
+  const b=blocById[r.bloc];
+  $("#sel-cg").innerHTML=opt("","— choisir —",r.cg)+(b?b.cg.map(c=>opt(c.c,c.c+" · "+c.t,r.cg)).join(""):"");
+  const t=$("#cgtxt"); if(r.cg&&cgIdx[r.cg]){t.hidden=false;t.innerHTML="<b>"+esc(r.cg)+"</b> : "+esc(cgIdx[r.cg].c.t);}else t.hidden=true;
+}
+function imp1(){
+  const txt=$("#imp1").value, got=[];
+  const m=txt.match(/CG4\.\d\.\d\.\d/); if(m&&cgIdx[m[0]]){S.r1.cg=m[0];sync1();got.push("objectif "+m[0]);}
+  const p=txt.match(/Pratique observée[^\n]*:\s*\n\s*([^\n]+)/i);
+  if(p){const a=p[1].trim().split("→");S.r1.pratique=(a[a.length-1]||"").trim();got.push("pratique observée");}
+  const c=txt.match(/Cause[^\n]*:\s*\n?\s*([^\n]+)/i); if(c&&!/Pratique/i.test(c[1])){S.r1.cause=c[1].trim();got.push("cause");}
+  if(!got.length){$("#imp1m").textContent="Rien de reconnu dans ce texte.";return;}
+  $("#imp1m").textContent="Reconnu : "+got.join(", ")+".";
+  fullRender();
+}
+
+/* ---------- Atelier 2 ---------- */
+function isAtelier(d){return d&&typeof d==="object"&&d.v2&&Array.isArray(d.items);}
+function importAtelier(d){
+  if(!isAtelier(d)) throw new Error("Ce fichier ne ressemble pas à un export d’Atelier 2.");
+  const v=d.v2||{}, n=d.items.filter(x=>x.type!=="v2").length;
+  const clean={acquis:(d.acquis||[]).map(a=>({id:a.id,text:a.text||""})),
+    items:d.items.filter(x=>x.type!=="v2").map(x=>({id:x.id,type:x.type,titre:x.titre||"",phase:x.phase||"",format:x.format||"",duree:x.duree||"",acquis:x.acquis||[],criteres:x.criteres||"",poids:x.poids||"",seuil:!!x.seuil,cond:x.cond||"",lie:x.lie!==false,fils:x.fils||{}})),
+    deb:Math.max(0,Math.min(n,parseInt(v.deb,10)||0)),fin:0};
+  clean.fin=Math.max(clean.deb,Math.min(n,isNaN(parseInt(v.fin,10))?clean.deb:parseInt(v.fin,10)));
+  S.r3=clean;
+  const r=S.r2;
+  r.titre=v.titre||r.titre; r.classe=v.classe||r.classe; r.fait=v.fait||r.fait; r.usageIA=v.usageIA||r.usageIA;
+  r.trace=v.trace||r.trace; r.reflexif=v.reflexif||r.reflexif; r.duree=v.duree||r.duree; r.poids=v.poids||r.poids;
+  r.fils=Object.assign({lit:false,meta:false,eth:false},v.fils||{});
+  const filled=[];
+  if(v.cg&&cgIdx[v.cg]&&!S.r1.cg){S.r1.cg=v.cg;sync1();filled.push("compétence "+v.cg);}
+  if(v.pratique&&!S.r1.pratique){S.r1.pratique=v.pratique;filled.push("pratique observée");}
+  return filled;
+}
+function readFile(file,cb){const fr=new FileReader();fr.onload=()=>cb(String(fr.result));fr.onerror=()=>say("Lecture du fichier impossible.","err");fr.readAsText(file);}
+function parseJ(t){try{return JSON.parse(t);}catch(e){throw new Error("Le fichier n’est pas un JSON valide.");}}
+function doAtelier(text,msgSel){
+  try{const f=importAtelier(parseJ(text)); $(msgSel).textContent="Importé : activité de voie 2 et séquence"+(f.length?" ; rubrique 1 complétée ("+f.join(", ")+")":"")+"."; fullRender();}
+  catch(e){$(msgSel).textContent=e.message;$(msgSel).style.color="#8A2A1B";}
+}
+
+/* ---------- Levier ---------- */
+const LDEF={echelle:20,min:0,arrondi:0.5,x:16,ref:8,mode:"additif",zone:0,malus:4,bonus:4,cmin:0.8,cmax:1.1,marge:2,part:50,absent:"neutre"};
+const MODES={
+ additif:{titre:"Bonus / malus en points",resume:"La note de voie 2 monte ou descend d’un nombre de points qui dépend du contrôle.",regle:"Au point neutre, rien ne change. En dessous, on retire jusqu’au malus maximal (score 0). Au-dessus, on ajoute jusqu’au bonus maximal (score maximal).",formule:"note finale = voie 2 + effet(contrôle)",params:["x","ref","zone","malus","bonus"]},
+ multiplicatif:{titre:"Coefficient de crédibilité",resume:"La note de voie 2 est multipliée par un coefficient lié au contrôle.",regle:"Au point neutre, le coefficient vaut 1. Il descend jusqu’au minimum pour un score de 0 et monte jusqu’au maximum pour le score maximal.",formule:"note finale = voie 2 × coefficient(contrôle)",params:["x","ref","zone","cmin","cmax"]},
+ plafond:{titre:"Plafond : la voie 2 ne dépasse pas la voie 1",resume:"La note de voie 2 est plafonnée par le résultat du contrôle, plus une marge.",regle:"Le contrôle peut plafonner la note, jamais l’augmenter.",formule:"note finale = min(voie 2 ; contrôle ramené sur l’échelle + marge)",params:["x","marge"]},
+ seuil:{titre:"Seuil de validation",resume:"Le contrôle est validé ou non : la voie 2 compte en totalité ou en partie.",regle:"Au-dessus du seuil, la voie 2 compte en totalité ; en dessous, pour une part seulement.",formule:"note finale = voie 2 × (100 % si contrôle ≥ seuil, sinon part)",params:["x","ref","part"]}};
+const PLAB={x:"Contrôle noté sur",ref:"Point neutre / seuil",zone:"Demi-zone neutre (±)",malus:"Malus maximal (points)",bonus:"Bonus maximal (points)",cmin:"Coefficient minimal",cmax:"Coefficient maximal",marge:"Marge du plafond (points)",part:"Part conservée sous le seuil (%)"};
+const nf=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:2});
+const fmt=n=>{if(!Number.isFinite(n))return "—";const r=Math.round(n*1000)/1000;return nf.format(Math.abs(r)<0.0005?0:r).replace("-",MOINS);};
+const pl=(n,m)=>Math.abs(n)>=2?m+"s":m;
+function annonce(tasks,c){
+  const E=c.echelle,X=c.x,r=c.ref,out=[];
+  const liste=tasks.map(t=>`${t.name||"Production"} (${fmt(+t.poids)} %)`).join(", ");
+  out.push(`Voie 2 (travail avec IA autorisée) : ${liste}. Ces travaux donnent une note sur ${fmt(E)}.`);
+  out.push(`Voie 1 (contrôle sans IA, noté sur ${fmt(X)}) : il vérifie que tu maîtrises ce que tu as produit et module ta note de voie 2.`);
+  const hi=r+c.zone,lo=r-c.zone;
+  if(c.mode==="additif"){
+    let t=c.zone>0?`Entre ${fmt(lo)} et ${fmt(hi)} sur ${fmt(X)}, ta note ne change pas.`:`Avec ${fmt(r)} sur ${fmt(X)}, ta note ne change pas.`;
+    const up=X-hi>0?c.bonus/(X-hi):0,down=lo>0?c.malus/lo:0;
+    if(up>0)t+=` Au-dessus, chaque point en plus ajoute ${fmt(up)} ${pl(up,"point")} (jusqu’à +${fmt(c.bonus)}).`;
+    if(down>0)t+=` En dessous, chaque point manquant en retire ${fmt(down)} (jusqu’à ${MOINS}${fmt(c.malus)}).`;
+    out.push(t);
+  }else if(c.mode==="multiplicatif"){
+    const z=c.zone>0?`Entre ${fmt(lo)} et ${fmt(hi)} sur ${fmt(X)}`:`Avec ${fmt(r)} sur ${fmt(X)}`;
+    out.push(`${z}, ta note de voie 2 est conservée (coefficient 1). Si tu fais mieux, elle est multipliée jusqu’à ${fmt(c.cmax)} pour un score de ${fmt(X)}/${fmt(X)}. Si tu fais moins bien, elle est multipliée jusqu’à ${fmt(c.cmin)} pour un score de 0.`);
+  }else if(c.mode==="plafond"){
+    out.push(`Ta note de voie 2 ne peut pas dépasser ton résultat au contrôle ramené sur ${fmt(E)} (${fmt(X)}/${fmt(X)} correspond à ${fmt(E)}), augmenté de ${fmt(c.marge)} ${pl(c.marge,"point")}. Le contrôle peut plafonner ta note, jamais l’augmenter.`);
+  }else if(c.mode==="seuil"){
+    out.push(`Si tu obtiens au moins ${fmt(r)} sur ${fmt(X)} au contrôle, ta note de voie 2 compte en totalité. Sinon, elle compte pour ${fmt(c.part)} %.`);
+  }
+  const ar=c.arrondi>0?`arrondie à ${fmt(c.arrondi)} ${pl(c.arrondi,"point")}`:"non arrondie";
+  out.push(`La note finale est ${ar} et reste comprise entre ${fmt(c.min)} et ${fmt(E)}.`);
+  return out;
+}
+function importLevier(d){
+  if(!d||d.levier!==1||!Array.isArray(d.tasks)||!d.config) throw new Error("Ce fichier ne ressemble pas à une configuration Levier.");
+  const c=Object.assign({},LDEF,d.config); if(!MODES[c.mode]) throw new Error("Mode d’évaluation inconnu : "+c.mode);
+  ["echelle","min","arrondi","x","ref","zone","malus","bonus","cmin","cmax","marge","part"].forEach(k=>c[k]=Number(c[k]));
+  S.r4.levier={tasks:d.tasks.map(t=>({name:String(t.name||""),bareme:Number(t.bareme)||0,poids:Number(t.poids)||0})),config:c};
+}
+function doLevier(text){
+  try{importLevier(parseJ(text));$("#imp4m").textContent="Configuration importée.";$("#imp4m").style.color="";fullRender();}
+  catch(e){$("#imp4m").textContent=e.message;$("#imp4m").style.color="#8A2A1B";}
+}
+
+/* ---------- avancement ---------- */
+function status(){
+  const a=S.r1,b=S.r2,c=S.r3,d=S.r4.levier;
+  const s1=a.pratique&&a.cg?2:(a.pratique||a.cg||a.aspect?1:0);
+  const s2=b.titre&&b.fait?2:(b.titre||b.fait||b.usageIA?1:0);
+  const s3=c&&c.items.some(x=>x.type==="v1")?2:(c&&c.items.length?1:0);
+  const s4=d?2:0;
+  return [s1,s2,s3,s4];
+}
+const LAB=["Cibler","Construire","Organiser","Certifier"],TXT=["à faire","en cours","complet"],CL=["none","part","full"];
+const TOOLS={competences:"https://VOTRE-COMPTE.github.io/competences-ia/",atelier2:"https://VOTRE-COMPTE.github.io/atelier2/",levier:"https://VOTRE-COMPTE.github.io/levier/"};
+const TABS=[["guide","Guide",-1],["s1","1 · Cibler",0],["s2","2 · Construire",1],["s3","3 · Organiser",2],["s4","4 · Certifier",3],["docwrap","Fiche",-2]];
+let cur="guide";
+function renderProg(){
+  const st=status(),done=st.reduce((a,x)=>a+x,0);
+  $("#prog").innerHTML=`<div class="tabs" role="tablist" aria-label="Rubriques de la fiche">`+TABS.map(([id,l,i])=>{
+    const x=i>=0?st[i]:null, cls=x==null?"":CL[x];
+    const sub=i>=0?`${x===2?"✓ ":""}${TXT[x]}`:(i===-1?"commencer ici":`${done}/8`);
+    return `<button class="tab ${cls}" role="tab" id="tab-${id}" aria-selected="${id===cur}" aria-controls="${id}" tabindex="${id===cur?0:-1}" data-tab="${id}"><b>${l}</b><span class="st">${sub}</span></button>`;
+  }).join("")+`</div><div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="${done}" aria-label="Avancement de la fiche"><i style="width:${done*12.5}%"></i></div>`;
+}
+function showTab(id,focus){
+  if(!TABS.some(t=>t[0]===id))id="guide"; cur=id;
+  document.querySelectorAll(".panel").forEach(p=>p.hidden=p.id!==id);
+  if(id==="docwrap")$("#doc").innerHTML=docHTML();
+  renderProg(); try{sessionStorage.setItem("c3.tab",id);}catch(e){}
+  if(focus){const t=$("#tab-"+id);if(t)t.focus();} else window.scrollTo({top:0});
+}
+function addNav(){
+  TABS.forEach(([id],i)=>{
+    const p=document.getElementById(id); if(!p||p.querySelector(".pn"))return;
+    const pv=TABS[i-1],nx=TABS[i+1];
+    const d=document.createElement("div");d.className="pn noprint";
+    d.innerHTML=(pv?`<button class="btn ghost small" data-go="${pv[0]}">← ${pv[1]}</button>`:"<span></span>")+(nx?`<button class="btn small" data-go="${nx[0]}">${nx[1]} →</button>`:"<span></span>");
+    p.appendChild(d);
+  });
+}
+function toolLinks(){document.querySelectorAll("a[data-tool]").forEach(a=>a.href=TOOLS[a.dataset.tool]);}
+
+/* ---------- rubriques en lecture ---------- */
+const acqCode=(c,id)=>{const i=c.acquis.findIndex(a=>a.id===id);return i<0?"?":"A"+(i+1);};
+function seqTable(c,forDoc){
+  if(!c) return "";
+  let rows="",tot=0,n=c.items.length;
+  const v2row=()=>`<tr class="v2row"><td><span class="tag v2">Voie 2</span></td><td>${esc(S.r2.titre||"Activité de voie 2")}</td><td>${esc(S.r2.duree||"")}</td><td colspan="2">Travail avec IA autorisée et déclarée</td></tr>`;
+  c.items.forEach((it,i)=>{
+    if(i===c.deb) rows+=v2row();
+    const v1=it.type==="v1";
+    const info=v1?`${FORMAT[it.format]||it.format||"Contrôle"}${it.poids?" · "+esc(it.poids)+" %":""}${it.seuil?" · seuil":""}${it.lie===false?" · non lié à la voie 2":""}`:esc(PHASE[it.phase]||it.phase||"");
+    rows+=`<tr class="${v1?"v1row":""}"><td><span class="tag ${v1?"v1":""}">${v1?"Voie 1":"Étape"}</span></td><td>${esc(it.titre)}</td><td>${esc(it.duree)}</td><td>${info}</td><td>${esc((it.acquis||[]).map(x=>acqCode(c,x)).join(" "))}</td></tr>`;
+    tot+=parseInt(it.duree,10)||0;
+  });
+  if(c.deb>=n) rows+=v2row();
+  return `<div class="tw"><table><thead><tr><th>Voie</th><th>Étape</th><th>Min</th><th>Nature</th><th>Acquis</th></tr></thead><tbody>${rows}</tbody></table></div>`+
+   `<p class="hint">Durée des étapes et contrôles : ${tot} min (hors activité de voie 2). Les étapes sont dans l’ordre de la séquence ; l’activité de voie 2 est placée là où Atelier 2 la situe.</p>`;
+}
+function acqList(c){return c.acquis.length?"<ol style=\"margin:4px 0;padding-left:22px\">"+c.acquis.map(a=>`<li>${esc(a.text)}</li>`).join("")+"</ol>":"<p class=\"empty\">Aucun acquis défini.</p>";}
+function renderSeq(){
+  const c=S.r3;
+  $("#seq").innerHTML=c?`<h3 style="font-size:18px;margin:6px 0">Acquis visés</h3>${acqList(c)}<h3 style="font-size:18px;margin:10px 0 0">Déroulement</h3>${seqTable(c)}`:`<p class="note">Aucune séquence importée pour l’instant. Dans Atelier 2, utilisez « Enregistrer (.json) », puis importez le fichier ici ou à la rubrique 2.</p>`;
+}
+function levBlock(forDoc){
+  const L=S.r4.levier; if(!L) return "";
+  const c=L.config,m=MODES[c.mode];
+  const tot=L.tasks.reduce((a,t)=>a+(+t.poids||0),0);
+  let h=`<p><b>${esc(m.titre)}</b> — ${esc(m.resume)}</p><p>${esc(m.regle)}</p><p class="hint">${esc(m.formule)}</p>`;
+  h+=`<div class="tw"><table><thead><tr><th>Paramètre</th><th>Valeur</th></tr></thead><tbody>`+
+    `<tr><td>Échelle de la note finale</td><td>${fmt(c.echelle)} (minimum ${fmt(c.min)}, arrondi ${c.arrondi>0?fmt(c.arrondi):"aucun"})</td></tr>`+
+    m.params.map(k=>`<tr><td>${esc(PLAB[k])}</td><td>${fmt(c[k])}</td></tr>`).join("")+`</tbody></table></div>`;
+  h+=`<div class="tw"><table><thead><tr><th>Production de voie 2</th><th>Barème</th><th>Poids</th></tr></thead><tbody>`+L.tasks.map(t=>`<tr><td>${esc(t.name)}</td><td>${fmt(t.bareme)}</td><td>${fmt(t.poids)} %</td></tr>`).join("")+`</tbody></table></div>`;
+  if(Math.abs(tot-100)>0.5) h+=`<p class="${forDoc?"empty":"note warn"}">Attention : les poids totalisent ${fmt(tot)} % et non 100 %.</p>`;
+  h+=`<h3 style="font-size:17px;margin:10px 0 4px">Annonce aux élèves</h3><div class="ann">`+annonce(L.tasks,c).map(x=>`<p>${esc(x)}</p>`).join("")+`</div>`;
+  return h;
+}
+function renderLev(){
+  const L=S.r4.levier; let h="";
+  if(!L){h=`<p class="note">Aucune configuration importée. Dans Levier, cliquez sur « Enregistrer la configuration », puis importez le fichier ici.</p>`;}
+  else{
+    h=levBlock(false);
+    const v1=S.r3?S.r3.items.filter(x=>x.type==="v1"):[];
+    if(v1.length) h+=`<div class="note">Atelier 2 prévoit ${v1.length} contrôle${v1.length>1?"s":""} de voie 1 (${v1.map(x=>esc(x.titre)).join(" ; ")}). Levier applique un seul contrôle global : vérifiez qu’il correspond à celui (ou à la combinaison) que vous voulez faire peser sur la voie 2.</div>`;
+    h+=`<p class="hint">Le tableur de notes ne fait pas partie de la fiche : rechargez cette configuration dans Levier pour le générer (xlsx, ods ou csv).</p>`;
+  }
+  $("#lev").innerHTML=h;
+}
+
+/* ---------- document final ---------- */
+function docHTML(){
+  const a=S.r1,b=S.r2,e='<p class="empty">Non renseigné.</p>';
+  const kv=(k,v)=>v?`<p class="kv"><b>${k} :</b> ${esc(v)}</p>`:"";
+  let h=`<h1>${esc(S.meta.titre||"Fiche enseignant")}</h1><p class="kv">${esc([S.meta.classe,S.meta.auteur].filter(Boolean).join(" · "))}</p>`;
+  h+=`<h2>1 · Cibler</h2>`;
+  if(a.pratique||a.cg){
+    h+=kv("Pratique observée",a.pratique)+kv("Cause probable",a.cause);
+    if(a.cg&&cgIdx[a.cg]){const bl=cgIdx[a.cg].b;h+=`<p class="kv"><b>Compétence UNESCO :</b> ${esc(UN.A[bl.aspect].n)} · niveau ${esc(NIV[bl.level])} (${bl.level}/3) · bloc ${esc(bl.id)} « ${esc(bl.name)} »</p><p class="kv"><b>Objectif ${esc(a.cg)} :</b> ${esc(cgIdx[a.cg].c.t)}</p>`;}
+    else if(a.aspect) h+=kv("Aspect UNESCO",UN.A[a.aspect]?UN.A[a.aspect].n:a.aspect);
+    h+=kv("Précisions",a.principes);
+  }else h+=e;
+  h+=`<h2 class="b">2 · Construire : activité de voie 2</h2>`;
+  if(b.titre||b.fait){
+    h+=`<p><b>${esc(b.titre)}</b></p>`+kv("Public",b.classe)+kv("Ce que font les élèves",b.fait)+kv("Cadre d’usage de l’IA",b.usageIA)+kv("Trace demandée",b.trace)+kv("Retour réflexif",b.reflexif);
+    const f=Object.keys(FILS).filter(k=>b.fils&&b.fils[k]).map(k=>FILS[k]).join(", ");
+    h+=kv("Enjeux",f)+kv("Durée",b.duree?b.duree+" min":"")+kv("Poids dans la note de voie 2",b.poids?b.poids+" %":"");
+  }else h+=e;
+  h+=`<h2 class="c">3 · Organiser : la séquence</h2>`;
+  h+=S.r3?`<p><b>Acquis visés</b></p>${acqList(S.r3)}${seqTable(S.r3,true)}`:e;
+  h+=`<h2 class="c" style="color:var(--ink)">4 · Certifier : évaluation Levier</h2>`;
+  h+=S.r4.levier?levBlock(true)+kv("Choix du mode",S.r4.commentaire):e;
+  return h;
+}
+function mdText(){
+  const a=S.r1,b=S.r2,q=[];
+  const kv=(k,v)=>v?`- **${k} :** ${v}`:null;
+  q.push(`# ${S.meta.titre||"Fiche enseignant"}`);
+  const meta=[S.meta.classe,S.meta.auteur].filter(Boolean).join(" · "); if(meta)q.push("\n"+meta);
+  q.push("\n## 1 · Cibler");
+  if(a.pratique||a.cg){
+    q.push([kv("Pratique observée",a.pratique),kv("Cause probable",a.cause)].filter(Boolean).join("\n"));
+    if(a.cg&&cgIdx[a.cg]){const bl=cgIdx[a.cg].b;q.push(`- **Compétence UNESCO :** ${UN.A[bl.aspect].n} · niveau ${NIV[bl.level]} (${bl.level}/3) · bloc ${bl.id} « ${bl.name} »\n- **Objectif ${a.cg} :** ${cgIdx[a.cg].c.t}`);}
+    if(a.principes)q.push(kv("Précisions",a.principes));
+  }else q.push("_Non renseigné._");
+  q.push("\n## 2 · Construire : activité de voie 2");
+  if(b.titre||b.fait){
+    q.push(`**${b.titre}**\n`);
+    const f=Object.keys(FILS).filter(k=>b.fils&&b.fils[k]).map(k=>FILS[k]).join(", ");
+    q.push([kv("Public",b.classe),kv("Ce que font les élèves",b.fait),kv("Cadre d’usage de l’IA",b.usageIA),kv("Trace demandée",b.trace),kv("Retour réflexif",b.reflexif),kv("Enjeux",f),kv("Durée",b.duree&&b.duree+" min"),kv("Poids dans la note de voie 2",b.poids&&b.poids+" %")].filter(Boolean).join("\n"));
+  }else q.push("_Non renseigné._");
+  q.push("\n## 3 · Organiser : la séquence");
+  const c=S.r3;
+  if(c){
+    q.push("**Acquis visés**\n"+c.acquis.map((x,i)=>`- A${i+1} : ${x.text}`).join("\n"));
+    q.push("\n| Voie | Étape | Min | Nature | Acquis |\n|---|---|---|---|---|");
+    const row=(v,t,d,n,ac)=>`| ${v} | ${String(t).replace(/\|/g,"/")} | ${d||""} | ${n||""} | ${ac||""} |`;
+    c.items.forEach((it,i)=>{
+      if(i===c.deb)q.push(row("Voie 2",b.titre||"Activité de voie 2",b.duree,"IA autorisée et déclarée",""));
+      const v1=it.type==="v1";
+      q.push(row(v1?"Voie 1":"Étape",it.titre,it.duree,v1?`${FORMAT[it.format]||it.format||"Contrôle"}${it.poids?" · "+it.poids+" %":""}${it.seuil?" · seuil":""}`:(PHASE[it.phase]||it.phase),(it.acquis||[]).map(x=>acqCode(c,x)).join(" ")));
+    });
+    if(c.deb>=c.items.length)q.push(row("Voie 2",b.titre||"Activité de voie 2",b.duree,"IA autorisée et déclarée",""));
+  }else q.push("_Non renseigné._");
+  q.push("\n## 4 · Certifier : évaluation Levier");
+  const L=S.r4.levier;
+  if(L){
+    const m=MODES[L.config.mode];
+    q.push(`**${m.titre}** : ${m.resume}\n\n${m.regle}\n\n_${m.formule}_\n`);
+    q.push(`- Échelle de la note finale : ${fmt(L.config.echelle)} (minimum ${fmt(L.config.min)}, arrondi ${L.config.arrondi>0?fmt(L.config.arrondi):"aucun"})`);
+    m.params.forEach(k=>q.push(`- ${PLAB[k]} : ${fmt(L.config[k])}`));
+    q.push("\n| Production de voie 2 | Barème | Poids |\n|---|---|---|");
+    L.tasks.forEach(t=>q.push(`| ${t.name} | ${fmt(t.bareme)} | ${fmt(t.poids)} % |`));
+    q.push("\n**Annonce aux élèves**\n\n"+annonce(L.tasks,L.config).map(x=>"> "+x).join("\n>\n"));
+    if(S.r4.commentaire)q.push("\n"+kv("Choix du mode",S.r4.commentaire));
+  }else q.push("_Non renseigné._");
+  return q.join("\n")+"\n";
+}
+
+/* ---------- rendu général ---------- */
+function syncInputs(){
+  document.querySelectorAll("[data-f]").forEach(el=>{
+    if(el.tagName==="SELECT")return; const v=get(S,el.dataset.f);
+    if(el.type==="checkbox")el.checked=!!v; else if(document.activeElement!==el)el.value=v==null?"":v;
+  });
+}
+function lite(){renderProg();$("#doc").innerHTML=docHTML();persist();}
+function fullRender(){sync1();fillSelects();syncInputs();renderSeq();renderLev();lite();}
+
+function download(name,text,type){
+  const u=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+const stamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate());};
+function slug(){return (S.meta.titre||"fiche").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"fiche";}
+
+function openFiche(d){
+  if(!d||d.fiche!==1) throw new Error("Ce fichier n’est pas une fiche C³.");
+  const b=blank(); S={fiche:1,meta:Object.assign(b.meta,d.meta),r1:Object.assign(b.r1,d.r1),r2:Object.assign(b.r2,d.r2),r3:d.r3||null,r4:Object.assign(b.r4,d.r4)};
+  S.r2.fils=Object.assign({lit:false,meta:false,eth:false},S.r2.fils||{});
+}
+function demo(){
+  S=blank();
+  S.meta={titre:"Érasme : interroger une IA (exemple fictif)",classe:"Histoire, 2e année",auteur:"Exemple"};
+  S.r1={pratique:"Ils font organiser leurs questions par une autre IA, sans le dire",cause:"",aspect:"",niveau:"",bloc:"",cg:"CG4.1.2.3",principes:"Détermination humaine, transparence"};
+  S.r2=Object.assign(S.r2,{titre:"Interroger une IA sur Érasme",classe:"Binômes",fait:"Les élèves partent de l’Europe, posent des questions, zooment, vérifient trois affirmations et notent qui a écrit chaque question.",usageIA:"Une seconde IA pour formuler est permise si elle est déclarée ; interdit de recopier sans vérifier.",trace:"Tableau d’usage.",reflexif:"Qu’ai-je décidé, qu’a décidé l’IA ?",duree:"100",poids:"40",fils:{lit:true,meta:true,eth:true}});
+  S.r3={acquis:[{id:"a1",text:"Vérifier une affirmation avec une source fiable."},{id:"a2",text:"Déclarer chaque usage d’une IA."}],items:[
+    {id:"p1",type:"app",titre:"Diagnostic des usages",phase:"amorcer",duree:"20",acquis:[],fils:{}},
+    {id:"p2",type:"app",titre:"Mini-leçon : déclarer l’IA",phase:"preparer",duree:"30",acquis:["a2"],fils:{}},
+    {id:"c1",type:"v1",titre:"Oral de 8 min sans IA",format:"micro",duree:"8",acquis:["a1","a2"],poids:"30",seuil:true,lie:true,fils:{}}],deb:2,fin:2};
+  S.r4.levier={tasks:[{name:"Tableau d’usage",bareme:20,poids:50},{name:"Réflexion écrite",bareme:20,poids:50}],config:Object.assign({},LDEF)};
+}
+
+document.addEventListener("keydown",e=>{
+  const t=e.target.closest&&e.target.closest("[role=tab]");if(!t)return;
+  const ids=TABS.map(x=>x[0]);let i=ids.indexOf(t.dataset.tab);
+  if(e.key==="ArrowRight")i=(i+1)%ids.length;else if(e.key==="ArrowLeft")i=(i+ids.length-1)%ids.length;else if(e.key==="Home")i=0;else if(e.key==="End")i=ids.length-1;else return;
+  e.preventDefault();showTab(ids[i],true);
+});
+document.addEventListener("input",e=>{
+  const el=e.target; if(!el.dataset||!el.dataset.f||el.tagName==="SELECT")return;
+  set(S,el.dataset.f,el.type==="checkbox"?el.checked:el.value); lite();
+});
+document.addEventListener("change",e=>{
+  const el=e.target;
+  if(el.tagName==="SELECT"&&el.dataset.f){
+    const k=el.dataset.f.split(".")[1],r=S.r1;
+    if(k==="aspect"){r.aspect=el.value;if(r.bloc&&blocById[r.bloc]&&blocById[r.bloc].aspect!==r.aspect){r.bloc="";r.cg="";}}
+    else if(k==="niveau"){r.niveau=el.value;if(r.bloc&&blocById[r.bloc]&&String(blocById[r.bloc].level)!==r.niveau){r.bloc="";r.cg="";}}
+    else if(k==="bloc"){r.bloc=el.value;r.cg="";}
+    else if(k==="cg"){r.cg=el.value;}
+    fullRender();return;
+  }
+  if(el.id==="f2"||el.id==="f3"){const f=el.files[0];if(f)readFile(f,t=>doAtelier(t,el.id==="f2"?"#imp2m":"#imp2m"));el.value="";}
+  else if(el.id==="f4"){const f=el.files[0];if(f)readFile(f,doLevier);el.value="";}
+  else if(el.id==="openf"){const f=el.files[0];if(f)readFile(f,t=>{try{openFiche(parseJ(t));fullRender();say("Fiche ouverte.");}catch(x){say(x.message,"err");}});el.value="";}
+});
+document.addEventListener("click",e=>{
+  const tb=e.target.closest("[data-tab]");if(tb){showTab(tb.dataset.tab);return;}
+  const go=e.target.closest("[data-go]");if(go){showTab(go.dataset.go);return;}
+  const b=e.target.closest("[data-act]"); if(!b)return; const a=b.dataset.act;
+  if(a==="save")download(`fiche_c3_${slug()}_${stamp()}.json`,JSON.stringify(S,null,1),"application/json");
+  else if(a==="new"){if(confirm("Effacer la fiche en cours ?")){S=blank();["#imp1","#imp2","#imp4"].forEach(s=>$(s).value="");fullRender();say("");}}
+  else if(a==="demo"){if(confirm("Remplacer la fiche en cours par l’exemple fictif ?")){demo();fullRender();}}
+  else if(a==="imp1")imp1();
+  else if(a==="imp2")doAtelier($("#imp2").value,"#imp2m");
+  else if(a==="imp4")doLevier($("#imp4").value);
+  else if(a==="print")window.print();
+  else if(a==="md")download(`fiche_c3_${slug()}_${stamp()}.md`,mdText(),"text/markdown");
+  else if(a==="copymd"){const t=mdText();(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(()=>say("Markdown copié."),()=>{const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");say("Markdown copié.");}catch(x){say("Copie impossible.","err");}ta.remove();});}
+});
+[["drop2","#imp2m",doAtelier],["drop3","#imp2m",doAtelier],["drop4","#imp4m",null]].forEach(([id,m,fn])=>{
+  const d=document.getElementById(id);
+  d.addEventListener("dragover",e=>{e.preventDefault();d.classList.add("over");});
+  d.addEventListener("dragleave",()=>d.classList.remove("over"));
+  d.addEventListener("drop",e=>{e.preventDefault();d.classList.remove("over");const f=e.dataTransfer.files[0];if(!f)return;readFile(f,t=>fn?fn(t,m):doLevier(t));});
+});
+window.addEventListener("beforeprint",()=>{$("#doc").innerHTML=docHTML();});
+
+try{const t=localStorage.getItem(KEY);if(t){openFiche(JSON.parse(t));}}catch(e){S=blank();}
+fullRender();addNav();toolLinks();let t0="guide";try{t0=sessionStorage.getItem("c3.tab")||"guide";}catch(e){}showTab(t0);
+})();
+</script>
+</body>
+</html>
